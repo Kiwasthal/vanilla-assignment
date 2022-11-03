@@ -1,0 +1,222 @@
+@use 'sass:map';
+
+.main {
+  padding-top: 32px;
+  padding-bottom: 48px;
+  padding-left: 24px;
+  padding-right: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  gap: 37px;
+  overflow-x: hidden;
+
+  //Change 'flow' of grid on the second item on mobile views
+
+  :nth-child(2) {
+    .image-container {
+      grid-row: 1;
+    }
+  }
+
+  &-item {
+    height: 50%;
+    width: 100%;
+    display: grid;
+    grid-template-rows: 167 380px;
+    gap: 32px;
+
+    /**
+    * Image
+    **/
+
+    .image-container {
+      height: 180px;
+      width: 100%;
+      justify-self: center;
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+
+      @include transition-ease;
+
+      &.one {
+        background-image: url('/Content_Image_One.jpg');
+      }
+
+      &.one:hover {
+        background-position: bottom;
+      }
+
+      &.two {
+        display: block;
+        height: 289px;
+        width: 312px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-image: url('/Content_Image_Two.png');
+        transition: all 0.2s ease-in-out;
+        transition-delay: 0.1s;
+        justify-self: center;
+      }
+
+      &.two:hover {
+        transform: rotate(180deg);
+      }
+    }
+
+    /**
+    * Text 
+    **/
+
+    .information-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      //Displacing only the second container to fit layout
+      &.secondary {
+        justify-self: flex-end;
+      }
+
+      h4 {
+        color: $textIdle;
+        font-weight: map.get($fontWeight, 'bold');
+        height: 15px;
+        font-size: 14px;
+        letter-spacing: 0px;
+        margin-bottom: 6px;
+      }
+
+      h3 {
+        color: $secondaryColor;
+        font-weight: map.get($fontWeight, 'extraBold');
+        font-size: 32px;
+        margin-bottom: 32px;
+      }
+
+      p {
+        line-height: 1.7rem;
+        font-weight: map.get($fontWeight, 'regular');
+        font-size: 18px;
+        text-align: left;
+        color: $secondaryColor;
+      }
+
+      button {
+        margin-top: 40px;
+        height: 48px;
+        width: 152px;
+        outline: none;
+        border: none;
+        border-radius: 42px;
+        box-shadow: 0px 3px 6px #00000066;
+        background: $buttonColor;
+        font-size: 22px;
+        font-weight: map.get($fontWeight, 'extraBold');
+        color: $primaryColor;
+        text-align: center;
+      }
+
+      button:hover {
+        background: $buttonColorHovered;
+      }
+    }
+  }
+}
+
+/*
+ * Media Queries 
+*/
+
+@include media-md {
+  .main {
+    &-item {
+      .image-container {
+        height: 300px;
+      }
+    }
+  }
+}
+
+@include media-lg {
+  .main {
+    gap: 144px;
+    padding-top: 15vh;
+    padding-bottom: 20vh;
+    padding-left: 0px;
+    padding-right: 0px;
+    align-items: center;
+
+    //Reversing mobile view of pillow item to fit design on larger screens
+
+    :nth-child(2) {
+      .image-container {
+        grid-column: 2;
+        grid-row: 1;
+      }
+    }
+
+    &-item {
+      width: 89%;
+      display: grid;
+      grid-template-columns: 496px 256px;
+      gap: 60px;
+
+      .image-container {
+        min-height: 368px;
+        min-width: 496px;
+
+        &.two {
+          height: 424px;
+          width: 455px;
+          justify-self: start;
+        }
+      }
+
+      .information-container {
+        justify-content: center;
+        width: 455px;
+
+        h4 {
+          font-size: 19px;
+          margin-bottom: 9px;
+        }
+
+        h3 {
+          font-size: 32px;
+        }
+
+        p {
+          font-size: 18px;
+        }
+
+        button {
+          margin-top: 40px;
+          height: 56px;
+          width: 240px;
+        }
+      }
+    }
+  }
+}
+
+@include media-xl {
+  .main {
+    &-item {
+      width: 76%;
+      grid-template-columns: 596px 456px;
+      gap: 100px;
+    }
+  }
+}
+
+@include media-2xl {
+  .main {
+    &-item {
+      grid-template-columns: 696px 456px;
+    }
+  }
+}

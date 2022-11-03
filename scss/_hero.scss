@@ -1,0 +1,135 @@
+@use 'sass:map';
+
+.hero {
+  height: 70vh;
+  width: 100vw;
+  background: linear-gradient(180deg, #fefefe00 40%, #000000 100%) 0% 0%
+    no-repeat padding-box;
+  background-position: center;
+  background-size: cover;
+  overflow: hidden;
+  position: relative;
+
+  &-image {
+    background-size: cover;
+    background-position: left;
+    mix-blend-mode: multiply;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  /*
+  * --------- Hero Text Layout ---------
+  */
+
+  &-modal {
+    position: absolute;
+    top: 20%;
+    left: 24px;
+    width: 85%;
+    mix-blend-mode: lighten;
+
+    &-title {
+      color: $primaryColor;
+      position: relative;
+      font-weight: map.get($fontWeight, 'extraBold');
+      font-size: 40px;
+    }
+
+    &-title::before {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      height: 10px;
+      width: 48px;
+      background-color: $accentColor;
+    }
+
+    &-content {
+      margin-top: 48px;
+      font-size: 18px;
+      font-weight: map.get($fontWeight, 'extraBold');
+    }
+  }
+
+  /*
+  * --------- SideNav (+BUTTONS) ---------
+  */
+
+  &-slidenav {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+
+    &-item {
+      height: 12px;
+      width: 12px;
+      background-color: $buttonIdle;
+      border-radius: 100%;
+      cursor: pointer;
+
+      @include transition-ease;
+
+      &.active {
+        background-color: $primaryColor;
+      }
+    }
+  }
+}
+
+//Changed to relative sizes for better responsiveness
+
+@include media-lg {
+  .hero {
+    height: 100vh;
+    &-modal {
+      top: 45%;
+      left: 12%;
+      width: 40%;
+      &-title {
+        width: 699px;
+        font-size: 6rem;
+      }
+      &-title::before {
+        bottom: -10%;
+        height: 15px;
+        width: 96px;
+      }
+      &-content {
+        margin-top: 4rem;
+        font-size: 1.7rem;
+        font-weight: map.get($fontWeight, 'extraBold');
+      }
+    }
+  }
+}
+
+@include media-2xl {
+  .hero {
+    background-position: center;
+    background-size: cover;
+
+    .hero-image {
+      background-size: cover;
+      background-position: left 50% top 0%;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    &-modal {
+      position: absolute;
+      text-align: left;
+      width: 32%;
+    }
+
+    &-slidenav {
+      &-item {
+        height: 16px;
+        width: 16px;
+      }
+    }
+  }
+}

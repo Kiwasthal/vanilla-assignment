@@ -1,0 +1,227 @@
+@use 'sass:map';
+
+.mobile {
+  display: none;
+}
+
+.nav {
+  z-index: 9999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 56px;
+  background: $secondaryColor;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 26px;
+  padding-right: 36px;
+  overflow: hidden;
+
+  h1 {
+    opacity: 0;
+    text-transform: uppercase;
+
+    @include transition-ease;
+  }
+
+  //Creating the burger button
+
+  .btn {
+    height: 20px;
+    width: 28px;
+    position: relative;
+    cursor: pointer;
+
+    @include transition-ease;
+
+    &-burger {
+      height: 4px;
+      width: 100%;
+      background-color: $primaryColor;
+      border-radius: 10px;
+      position: absolute;
+      top: 50%;
+      @include transition-ease;
+    }
+
+    &-burger::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      width: 28px;
+      height: 4px;
+      border-radius: 10px;
+      background-color: $primaryColor;
+
+      @include transition-ease;
+    }
+
+    &-burger::after {
+      content: '';
+      position: absolute;
+      top: 8px;
+      width: 28px;
+      height: 4px;
+      border-radius: 10px;
+      background-color: $primaryColor;
+
+      @include transition-ease;
+    }
+  }
+
+  &-logo {
+    height: 40px;
+    width: 40px;
+    cursor: pointer;
+
+    @include transition-ease;
+  }
+
+  //Disabling redundant nav-tags in mobile
+
+  &-menu {
+    display: none;
+  }
+
+  &-localization {
+    display: none;
+  }
+
+  //Handling The Menu opening state
+
+  &.open {
+    h1 {
+      display: block;
+      font-size: 38px;
+      font-weight: map.get($fontWeight, 'extraBold');
+      opacity: 1;
+      overflow: visible;
+    }
+
+    .nav-logo {
+      opacity: 0;
+    }
+
+    //Menu burger Animation on click
+    .btn-burger {
+      transform: rotate(360deg);
+      background: transparent;
+    }
+
+    .btn-burger::before {
+      transform: rotate(45deg) translate(5px, 8px);
+    }
+
+    .btn-burger::after {
+      width: 28px;
+      transform: rotate(-45deg) translate(3px, -7px);
+    }
+  }
+
+  /* ----- Mobile Menu Styling ------ */
+
+  &.open + .mobile {
+    display: block;
+    flex-direction: column;
+    position: absolute;
+    width: 100vw;
+    z-index: 100;
+    background-color: $primaryColor;
+
+    ul {
+      margin-top: 114px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 40px;
+
+      li {
+        font-weight: map.get($fontWeight, 'extraBold');
+        font-size: 2.6rem;
+        color: $secondaryColor;
+        list-style: none;
+      }
+    }
+
+    h3 {
+      display: flex;
+      justify-content: center;
+      font-size: 600;
+      color: $buttonIdle;
+      margin-bottom: 26px;
+
+      span:first-child {
+        color: $secondaryColor;
+      }
+      span {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    }
+
+    .mobile-information-container {
+      width: 100%;
+      background-color: $buttonColor;
+      display: grid;
+      justify-items: center;
+
+      .social {
+        margin-top: 30px;
+        display: flex;
+        gap: 32px;
+        font-size: 24px;
+        margin-bottom: 37px;
+      }
+
+      h3 {
+        color: $primaryColor;
+        span {
+          color: $primaryColor;
+        }
+      }
+
+      .information-wrapper {
+        width: 80%;
+        border-top: 2px solid $textSecondary;
+        font-size: 18px;
+
+        p:nth-child(1) {
+          margin-top: 24px;
+        }
+        p:nth-child(2) {
+          margin-top: 6px;
+          margin-bottom: 26px;
+        }
+        p:nth-child(3) {
+          margin-bottom: 16px;
+          font-size: 13px;
+        }
+      }
+    }
+  }
+}
+
+//Hide the overflowing components when menu is active
+
+.header {
+  &.open ~ .page-content {
+    display: none;
+  }
+}
+
+//Extra styling for the mobile menu in smaller screens, getting rid of whitespace
+//While emulating the original design
+
+@include media-sm {
+  .nav {
+    &.open + .mobile {
+      display: flex;
+      height: 100vh;
+      justify-content: space-between;
+    }
+  }
+}

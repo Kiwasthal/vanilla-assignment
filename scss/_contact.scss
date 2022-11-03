@@ -1,0 +1,619 @@
+@use 'sass:map';
+
+.contact {
+  width: 100%;
+  display: flex;
+  position: relative;
+  flex-direction: column-reverse;
+  overflow-x: hidden;
+  /*
+  * --------- Map & Map Pointer ---------
+  */
+  &-map {
+    height: 300px;
+    width: 100%;
+    //Scaling the image to find the correct map position!
+    object-fit: cover;
+    object-position: center;
+    //Arbitrarily decreasing image brightness to fit original design
+    //Note: cannot use blend mode with linear-background since instructions state the html tag for the map must be an image
+    filter: brightness(80%);
+  }
+
+  &-badge {
+    position: absolute;
+    left: 50%;
+    bottom: 12%;
+    width: 32px;
+    height: 32px;
+    background-color: $accentColor;
+    z-index: 9999;
+    border-radius: 300px;
+    left: 50%;
+    bottom: 12%;
+    transform: scale(1) translate(-50%, 50%); //Centering the badge horizontally
+    overflow: hidden;
+    @include transition-ease;
+    transition-delay: 100ms;
+
+    .information-container {
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 300ms ease-in-out;
+      transform: scale(1);
+
+      &-item {
+        color: $secondaryColor;
+        font-size: 19px;
+      }
+    }
+    .information-container span {
+      margin-bottom: 16px;
+    }
+
+    // Social Icons
+
+    .social {
+      display: flex;
+      gap: 30px;
+      margin-top: 32px;
+      &-icon {
+        color: $secondaryColor;
+        height: 32px;
+        width: 32px;
+        cursor: pointer;
+        transform: translateY(100vh);
+
+        @include transition-ease;
+      }
+    }
+  }
+
+  &-badge:hover {
+    width: 600px;
+    height: 600px;
+    transform: translate(-50%, 80%);
+
+    .information-container {
+      margin-top: 68px;
+      opacity: 1;
+
+      &-item {
+        transition: all 300ms ease-in-out;
+        transition-delay: 0;
+      }
+
+      .social {
+        &-icon {
+          transform: translateY(0);
+          transition-delay: 300ms;
+        }
+
+        &-icon:hover {
+          color: $buttonColor;
+        }
+      }
+    }
+  }
+
+  /*
+  * --------- Form Container ---------
+  */
+
+  &-formwrapper {
+    background: $formColor;
+    width: 100%;
+    display: flex;
+    padding-left: 24px;
+    padding-right: 24px;
+    flex-direction: column;
+    color: $secondaryColor;
+
+    h2 {
+      font-weight: map.get($fontWeight, 'extraBold');
+      font-size: 32px;
+      margin-bottom: 32px;
+      margin-top: 32px;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 32px;
+      font-weight: map.get($fontWeight, 'regular');
+    }
+
+    /*
+    * --------- Complementary Submit Message ---------
+    * --------- Disabled by Default ---------
+    */
+
+    .form-success {
+      position: absolute;
+      z-index: 100;
+      top: 10%;
+      right: 10%;
+      border: 2px solid $secondaryColor;
+      background-color: $formColor;
+      color: $secondaryColor;
+      display: flex;
+      flex-direction: column;
+      border-radius: 15px;
+      padding: 20px;
+
+      p {
+        margin-bottom: 0;
+      }
+
+      h4 {
+        font-size: 24px;
+      }
+    }
+    /* --------------------------------------------------- */
+
+    /*
+    * --------- Form Fields ---------
+    */
+
+    .form {
+      display: -webkit-box;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      position: relative;
+
+      //Success Message
+
+      /*
+      * --------- Select Input Styling ---------
+      */
+
+      &.options {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        margin-bottom: 36px;
+
+        div {
+          width: 100%;
+          position: relative;
+        }
+
+        //Overriding the default arrow cross browsers
+        select {
+          -moz-appearance: none; /* Firefox */
+          -webkit-appearance: none; /* Safari and Chrome */
+          appearance: none;
+          background-color: $primaryColor;
+        }
+
+        //Select Arrow styling based on select's state
+
+        select ~ .arrow {
+          position: absolute;
+          height: 16px;
+          right: 8px;
+          transform: translate(-50%, -50%);
+          top: 50%;
+
+          transition: transform 200ms ease-in-out;
+          pointer-events: none;
+        }
+
+        select:focus ~ .arrow {
+          transform: rotate(180deg) translate(50%, 50%);
+          color: $buttonColor;
+        }
+      }
+
+      /*
+      * --------- Default Styling Input & Textarea ---------
+      */
+
+      &-input,
+      &-textarea {
+        outline: none;
+        border: 1px solid $secondaryColor;
+        margin-bottom: 4px;
+        width: 100%;
+        height: 40px;
+        border-radius: 28px;
+        padding-left: 26px;
+        font-size: 16px;
+        font-weight: map.get($fontWeight, 'medium');
+        opacity: 0.8;
+
+        @include transition-ease;
+
+        //Displaying the invalid state colors
+
+        &.invalid {
+          border: 1px solid $formInvalid;
+          color: $formInvalid;
+        }
+
+        //If invalid and typing revert to the normal color
+
+        &.invalid:focus {
+          color: $secondaryColor;
+        }
+      }
+
+      &-input:hover,
+      &-textarea:hover {
+        border: 1px solid $buttonColor;
+      }
+
+      &-input:focus {
+        border: 2px solid $buttonColor;
+      }
+
+      &-input:focus:required:invalid {
+        border: 1px solid $formInvalid;
+      }
+
+      //Getting rid of automatic autocomplete styling
+
+      &-input:-webkit-autofill,
+      &-input:-webkit-autofill:hover,
+      &-input:-webkit-autofill:focus,
+      &-input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px $primaryColor inset !important;
+        box-shadow: 0 0 0 30px $primaryColor inset !important    ;
+      }
+
+      &-input:focus + .form-label,
+      &-textarea:focus + .form-label,
+      &-input:valid + .form-label,
+      &-textarea:valid + .form-label {
+        transform: translateY(-8px) translateX(25px);
+        font-size: 12px;
+        background-color: $formColor;
+        padding-top: 0;
+        padding-left: 5px;
+        padding-right: 15px;
+        color: $buttonColor;
+      }
+
+      .form-input:not(:focus).form-input:valid + .form-label,
+      .form-textarea:not(:focus).form-textarea:valid + .form-label {
+        color: $secondaryColor;
+      }
+
+      &-input:focus:required:invalid + .form-label,
+      &-textarea:focus:required:invalid + .form-label {
+        color: $formInvalid;
+      }
+
+      &-label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding-left: 26px;
+        padding-top: 9px;
+        color: $secondaryColor;
+        font-size: 16px;
+        font-weight: map.get($fontWeight, 'medium');
+        letter-spacing: 1;
+        transition: all 300ms ease-in;
+        pointer-events: none;
+
+        &.invalid {
+          color: $formInvalid !important;
+        }
+      }
+
+      &-textarea {
+        outline: none;
+        width: 100%;
+        height: 136px;
+        resize: none;
+        padding-top: 19px;
+      }
+
+      &-error {
+        color: $textSecondary;
+        font-size: 12px;
+        margin-right: 8px;
+        white-space: pre;
+        margin-bottom: 12px;
+        display: block;
+        height: 16px;
+      }
+
+      // ✔ ✔ ✔
+
+      &-checkmark {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-top: 12px;
+        margin-right: 12px;
+        width: 16px;
+        height: 16px;
+      }
+
+      // Checkbox Buttons
+
+      &-checkbox {
+        margin-bottom: 36px;
+        color: $formInvalid;
+
+        label {
+          opacity: 0.8;
+        }
+
+        .container {
+          position: relative;
+          padding-left: 40px;
+          margin-bottom: 12px;
+          cursor: pointer;
+          font-weight: map.get($fontWeight, 'medium');
+          font-size: 16px;
+          margin-right: 20px;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          color: $secondaryColor;
+
+          .checkmark:after {
+            z-index: 200;
+            content: '';
+            position: absolute;
+            display: none;
+          }
+
+          input:checked ~ .checkmark:after {
+            display: block;
+          }
+
+          input:checked ~ .checkmark {
+            border: 1px solid $buttonColor;
+          }
+
+          .checkmark:after {
+            left: 7px;
+            top: 3px;
+            width: 5px;
+            height: 10px;
+            border: 2px solid $buttonColor;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+          }
+
+          input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+          }
+
+          .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 24px;
+            width: 24px;
+            border: 1px solid $secondaryColor;
+            border-radius: 6px;
+          }
+        }
+      }
+
+      // Submit Button
+
+      &-btnwrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        button {
+          text-align: center;
+          padding: 17px 126px;
+          background-color: $buttonColor;
+          color: $primaryColor;
+          font-weight: map.get($fontWeight, 'extraBold');
+          font-size: 20px;
+          outline: none;
+          border: none;
+          box-shadow: 0px 3px 6px #00000066;
+          border-radius: 42px;
+          margin-bottom: 40px;
+        }
+
+        button:hover {
+          background-color: $buttonColorHovered;
+        }
+      }
+    }
+
+    //Please select one of the following p tag
+
+    .checkboxtext {
+      opacity: 0.8;
+      margin-bottom: 20px;
+      font-size: 21px;
+      font-weight: map.get($fontWeight, 'regular');
+    }
+  }
+}
+
+@include media-lg {
+  .contact {
+    flex-direction: row;
+    position: relative;
+    gap: 0;
+
+    &-map {
+      width: 560px;
+      height: 1032px;
+      object-fit: cover;
+      object-position: right;
+      transform: scale(1);
+    }
+
+    &-badge {
+      position: absolute;
+      left: 111px;
+      top: 500px;
+      transform: scale(1);
+
+      .information-container {
+        &-item {
+          font-size: 22px;
+        }
+      }
+    }
+
+    &-badge:hover {
+      width: 356px;
+      height: 356px;
+      transform: translate(-20%, -50%);
+
+      .information-container {
+        margin-top: 112px;
+      }
+    }
+
+    &-formwrapper {
+      justify-content: center;
+      //Change to relative sizes for responsiveness
+      padding-left: 9.6%;
+      padding-right: 9.6%;
+      //Original absolute values
+      // padding-left: 184px;
+      // padding-right: 184px;
+      h2 {
+        margin-bottom: 32px;
+        margin-top: 0px;
+      }
+
+      p {
+        font-size: 18px;
+        margin-bottom: 48px;
+      }
+
+      .form {
+        &.options {
+          flex-direction: row;
+          gap: 40px;
+          margin-bottom: 40px;
+
+          select ~ .arrow {
+            position: absolute;
+            height: 30px;
+            right: 0;
+            transform: translate(-50%, -50%);
+            top: 46%;
+          }
+        }
+
+        &-input,
+        &-textarea {
+          height: 56px;
+          padding-left: 40px;
+          margin-bottom: 8px;
+          font-size: 22px;
+        }
+
+        &-label {
+          padding-left: 40px;
+          padding-top: 19px;
+          font-size: 18px;
+        }
+
+        &-input:focus + .form-label,
+        &-textarea:focus + .form-label,
+        &-input:valid + .form-label,
+        &-textarea:valid + .form-label {
+          transform: translateY(-8px) translateX(35px);
+          padding-left: 10px;
+        }
+
+        &-textarea {
+          outline: none;
+          width: 100%;
+          height: 136px;
+          resize: none;
+          padding-top: 19px;
+        }
+
+        &-error {
+          font-size: 14px;
+          margin-right: 20px;
+          margin-bottom: 16px;
+        }
+
+        &-checkmark {
+          margin-top: 13px;
+          margin-right: 15px;
+          width: 30px;
+          height: 30px;
+        }
+
+        &-checkbox {
+          margin-bottom: 50px;
+
+          .container {
+            font-size: 20px;
+          }
+        }
+
+        &-btnwrapper {
+          button {
+            margin-bottom: 0px;
+            padding: 13px 114px;
+          }
+        }
+      }
+    }
+    .checkboxtext {
+      margin-bottom: 21px;
+      opacity: 0.8;
+      font-size: 16px;
+      font-weight: map.get($fontWeight, 'regular');
+    }
+  }
+}
+
+//
+
+@include media-xl {
+  .contact {
+    &-map {
+      width: 710px;
+    }
+
+    &-badge {
+      left: 261px;
+    }
+
+    &-badge:hover {
+      transform: translate(-35%, -50%);
+    }
+  }
+}
+
+//Max image width
+
+@include media-2xl {
+  .contact {
+    &-map {
+      width: 856px;
+    }
+    &-badge {
+      left: 411px;
+    }
+
+    &-badge:hover {
+      transform: translate(-50%, -50%);
+    }
+  }
+}
