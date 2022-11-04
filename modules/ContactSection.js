@@ -6,10 +6,10 @@ import createCategoryFields from './Helpers/CreateFormCategories';
 import createMessageField from './Helpers/CreateTextareaField';
 import createFormCheckBoxes from './Helpers/CreateFormCheckboxes';
 
-const createContactSection = () => {
+const createContactSection = parent => {
   let contactSection = document.createElement('section');
   contactSection.classList.add('contact');
-  document.body.appendChild(contactSection);
+  parent.appendChild(contactSection);
 
   //Creating the map
   let contactMap = document.createElement('img');
@@ -19,7 +19,7 @@ const createContactSection = () => {
 
   contactSection.appendChild(contactMap);
 
-  const createForm = (() => {
+  const createForm = (parent => {
     let formWrapper = document.createElement('div');
     formWrapper.classList.add('contact-formwrapper');
     contactSection.appendChild(formWrapper);

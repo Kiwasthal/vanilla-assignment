@@ -4,7 +4,7 @@ import banner_three from '/Hero_Banner_Three.jpg';
 
 console.log(banner_two);
 
-const createHero = () => {
+const createHero = parent => {
   let slides = [
     {
       url: banner_one,
@@ -19,7 +19,7 @@ const createHero = () => {
 
   let heroContainer = document.createElement('div');
   heroContainer.classList.add('hero');
-  document.body.appendChild(heroContainer);
+  parent.appendChild(heroContainer);
 
   //Configure Slider image
   let sliderImage = document.createElement('div');

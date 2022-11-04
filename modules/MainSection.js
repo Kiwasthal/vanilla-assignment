@@ -1,7 +1,7 @@
-const createMainSection = () => {
+const createMainSection = parent => {
   let mainSection = document.createElement('section');
   mainSection.classList.add('main');
-  document.body.appendChild(mainSection);
+  parent.appendChild(mainSection);
 
   //Create two main items but the order of their children is appended reversely in the dom
 

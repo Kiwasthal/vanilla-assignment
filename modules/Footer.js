@@ -1,10 +1,10 @@
 import Logo from '/Logo.svg';
 
-const createFooter = () => {
+const createFooter = parent => {
   let footer = document.createElement('footer');
   footer.classList.add('footer');
   footer.ariaLabel = 'Footer';
-  document.body.appendChild(footer);
+  parent.appendChild(footer);
 
   let copywrite = document.createElement('span');
   copywrite.classList.add('footer-copywrite');

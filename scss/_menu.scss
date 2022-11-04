@@ -125,7 +125,9 @@
   &.open + .mobile {
     display: block;
     flex-direction: column;
-    position: absolute;
+    position: fixed;
+    top: 0;
+    overflow: hidden;
     width: 100vw;
     z-index: 100;
     background-color: $primaryColor;
